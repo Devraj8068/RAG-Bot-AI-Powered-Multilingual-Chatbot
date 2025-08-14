@@ -1,2 +1,2 @@
-# Eaiepl-Chatbot
+# Rag-Bot
 Chatbot
