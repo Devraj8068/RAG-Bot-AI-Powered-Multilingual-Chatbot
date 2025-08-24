@@ -13,8 +13,8 @@ app = Flask(__name__)
 CORS(app)  # This enables CORS for all routes and origins
 
 
-# Initialize components
-DEEPINFRA_API_KEY = "OgVj1Bfhy75G4OAGOsWvcFIW92shTra3"
+# Initialize components yUmx2Nq9Yiq1gPjNaMi6aTk2jyhkhmwp, nUOeCHfrPHplHyMwYWepNiEx8nB4ngq2, OgVj1Bfhy75G4OAGOsWvcFIW92shTra3, pYRnZvldIDekejxSInK9CpKUMrkrI3p0, aK0Qo97jFJMJYCVwIiCKfFNDo0pdATsy
+DEEPINFRA_API_KEY = "aK0Qo97jFJMJYCVwIiCKfFNDo0pdATsy"
 embedder = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
 text_splitter = RecursiveCharacterTextSplitter(
@@ -66,9 +66,16 @@ def ask_mistral(question):
             headers=headers,
             json=payload
         )
-        return response.json()["results"][0]["generated_text"]
+        result_json = response.json()
+        
+        # Debug: log full response if results key is missing
+        if "results" not in result_json:
+            return f"Error: 'results' not found in response. Full response: {result_json}"
+
+        return result_json["results"][0]["generated_text"]
     except Exception as e:
         return f"Error: {str(e)}"
+
 
 # Flask route to receive user questions
 @app.route('/chat', methods=['POST'])
