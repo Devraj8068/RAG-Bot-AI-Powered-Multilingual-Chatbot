@@ -32,3 +32,44 @@ Audio Processing: Speech-to-Text & Text-to-Speech integration
 
 Impact:
 RAG-Bot provides organizations with a smart, multilingual, and voice-enabled assistant that not only improves user engagement but also ensures knowledge-grounded, accurate, and company-specific responses. It bridges the gap between AI automation and real-world enterprise usability.
+
+## 🚀 Run locally
+
+```bash
+git clone https://github.com/Devraj8068/RAG-Bot-AI-Powered-Multilingual-Chatbot.git
+cd RAG-Bot-AI-Powered-Multilingual-Chatbot
+
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+cp .env.example .env            # then add your DeepInfra API key to .env
+```
+
+Start the two backend services in separate terminals:
+
+```bash
+python app.py               # RAG backend (retrieval + Mistral 7B via DeepInfra)
+python language_bridge.py   # translation + text-to-speech bridge
+```
+
+Then open `index.html` with a local static server (for example the VS Code **Live Server** extension) to use the chatbot.
+
+The DeepInfra key is read from the `DEEPINFRA_API_KEY` environment variable — never commit it. Get one from [DeepInfra](https://deepinfra.com/dash/api_keys).
+
+### Docker
+
+```bash
+docker build -t rag-bot .
+docker run -p 5000:5000 --env-file .env rag-bot
+```
+
+## 📁 Project structure
+
+| File | Purpose |
+| --- | --- |
+| `app.py` | Flask RAG backend: chunks and embeds the knowledge base (FAISS), retrieves context, calls the LLM |
+| `language_bridge.py` | Flask service for translation (deep-translator) and speech (gTTS) |
+| `output1.json` | Knowledge base indexed by the RAG backend |
+| `about.json`, `chatbot.json`, `services.json` | Content used by the UI and bridge |
+| `index.html`, `script.js`, `style.css` | Chat interface |

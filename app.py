@@ -5,6 +5,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 import faiss
 import numpy as np
 import json
+import os
 import requests
 from flask_cors import CORS
 
@@ -13,8 +14,13 @@ app = Flask(__name__)
 CORS(app)  # This enables CORS for all routes and origins
 
 
-# Initialize components yUmx2Nq9Yiq1gPjNaMi6aTk2jyhkhmwp, nUOeCHfrPHplHyMwYWepNiEx8nB4ngq2, OgVj1Bfhy75G4OAGOsWvcFIW92shTra3, pYRnZvldIDekejxSInK9CpKUMrkrI3p0, aK0Qo97jFJMJYCVwIiCKfFNDo0pdATsy
-DEEPINFRA_API_KEY = "aK0Qo97jFJMJYCVwIiCKfFNDo0pdATsy"
+# Initialize components
+# API key is read from the environment / .env file — never hard-code it
+from dotenv import load_dotenv
+load_dotenv()
+DEEPINFRA_API_KEY = os.getenv("DEEPINFRA_API_KEY")
+if not DEEPINFRA_API_KEY:
+    raise RuntimeError("DEEPINFRA_API_KEY is not set. Copy .env.example to .env and add your DeepInfra API key.")
 embedder = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
 text_splitter = RecursiveCharacterTextSplitter(

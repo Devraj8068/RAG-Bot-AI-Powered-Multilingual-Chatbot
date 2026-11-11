@@ -11,7 +11,7 @@ COPY . /app
 RUN pip install --no-cache-dir --upgrade pip
 
 # Install all required Python packages
-RUN pip install --no-cache-dir flask flask-cors sentence-transformers transformers langchain faiss-cpu numpy requests
+RUN pip install --no-cache-dir flask flask-cors python-dotenv sentence-transformers transformers langchain faiss-cpu numpy requests
 
 # Expose port 5000
 EXPOSE 5000
